@@ -29,6 +29,7 @@ const numberInputAction = (valueIn) => {
 };
 
 const clearInputAction = () => {
+    console.log('clear clicked');
     return {
         type: CLEAR_INPUT
     }
@@ -75,6 +76,7 @@ const store = createStore(
 function reducer(state = initialState, action) {
     switch (action.type) {
         case NUMBER_INPUT:
+            console.log('number clicked:', action.value);
             if (state.equalsed) {
                 return {
                     ...state,
@@ -164,11 +166,15 @@ function reducer(state = initialState, action) {
                 }
             }
         case EQUALS:
-            return {
-                ...state,
-                result: evaluate(state.input.concat(state.result)).toString(),
-                input: state.input.concat(state.result),
-                equalsed: true
+            if (!state.equalsed){
+                return {
+                    ...state,
+                    result: evaluate(state.input.concat(state.result)).toString(),
+                    input: state.input.concat(state.result),
+                    equalsed: true
+                }
+            } else {
+                return state
             }
             break;
 
@@ -230,14 +236,10 @@ class Display extends React.Component {
         return (
             <div className='display-wrapper'>
                 <div className='input-display-wrapper'>
-                    <code id='input-display'>
-                        {this.props.inputDisplayContent}
-                    </code>
+                    <code id='input-display'>{this.props.inputDisplayContent}</code>
                 </div>
                 <div className='result-display-wrapper'>
-                    <code id="display">
-                        {this.props.resultDisplayContent}
-                    </code>
+                    <code id="display">{this.props.resultDisplayContent}</code>
                 </div>
             </div>
         );
@@ -252,6 +254,7 @@ class ButtonContainer extends React.Component {
                 <NumberButtons/>
                 <OperatorButtons/>
                 <EqualsButton/>
+                <MyTests/>
             </div>
         );
     }
@@ -271,9 +274,7 @@ class ClearButton extends React.Component {
                     color='danger'
                     className='clear-button'
                     onClick={this.handleClick}
-                >
-                    AC
-                </Button>
+                >AC</Button>
             </div>
         );
     }
@@ -332,18 +333,37 @@ class EqualsButton extends React.Component {
     }
 }
 
+class MyTests extends React.Component {
+    handleClick() {
+        document.getElementById('one').click();
+        document.getElementById('two').click();
+        document.getElementById('three').click();
+        console.log('test complete:', document.getElementById('display').innerText)
+    }
+
+    render() {
+        return (
+            <div className='test-div'>
+                <Button
+                    onClick={this.handleClick}
+                >Test</Button>
+            </div>
+        );
+    }
+}
+
 
 class NumberButtons extends React.Component {
     numberArr = [
-        {value:7, id:'seven'},
-        {value:8, id:'eight'},
-        {value:9, id:'nine'},
-        {value:4, id:'four'},
-        {value:5, id:'five'},
-        {value:6, id:'six'},
-        {value:1, id:'one'},
-        {value:2, id:'two'},
-        {value:3, id:'three'}
+        {value:7, id:"seven"},
+        {value:8, id:"eight"},
+        {value:9, id:"nine"},
+        {value:4, id:"four"},
+        {value:5, id:"five"},
+        {value:6, id:"six"},
+        {value:1, id:"one"},
+        {value:2, id:"two"},
+        {value:3, id:"three"}
         ];
 
     handleClickNumber(event) {
