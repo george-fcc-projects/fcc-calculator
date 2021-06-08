@@ -30,7 +30,6 @@
 .number-button {
   min-width: 10vh;
   min-height: 10vh;
-  font-size: 7vh;
 
 }
 
@@ -39,7 +38,6 @@
   grid-template-columns: auto auto;
   grid-template-rows: auto auto auto;
   padding: 10px;
-  font-size: 20px;
 }
 
 .operator-button-container {
@@ -52,7 +50,6 @@
 .operator-button {
   min-width: 10vh;
   min-height: 10vh;
-  font-size: 10vh;
 }
 
 .equals-button-container {
